@@ -114,8 +114,7 @@ public class ChatServerInboundHandler extends SimpleChannelInboundHandler<Packet
 		}
 		JsonObject job = null;
 		try {
-			JsonParser jp = new JsonParser();
-			job = jp.parse(FileUtils.readFileToString(uf, "UTF8")).getAsJsonObject();
+			job = JsonParser.parseString(FileUtils.readFileToString(uf, "UTF8")).getAsJsonObject();
 			if(!job.has("nick")) {
 				throw new IOException("Old account, create again");
 			}
@@ -168,8 +167,7 @@ public class ChatServerInboundHandler extends SimpleChannelInboundHandler<Packet
 		try {
 			File uf = new File("db/users/" + Utils.getChannelAttr(AttributeSaver.id, ch) + ".json");
 			JsonObject job = null;
-			JsonParser jp = new JsonParser();
-			job = jp.parse(FileUtils.readFileToString(uf, "UTF8")).getAsJsonObject();
+			job = JsonParser.parseString(FileUtils.readFileToString(uf, "UTF8")).getAsJsonObject();
 			job.addProperty("nick", packet.username);
 			FileUtils.writeStringToFile(uf, new GsonBuilder().serializeNulls().disableHtmlEscaping().setPrettyPrinting().create().toJson(job), "UTF8", false);
 		} catch (Exception e) {
